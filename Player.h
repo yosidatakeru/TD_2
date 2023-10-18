@@ -38,8 +38,13 @@ public:
 	//// 弾
 	std::list<PlayerBullet*> bullets_;
 
-	
+	void OnCollsion();
 
+	Vector3 GetWorldPosition();
+	// 弾リストを取得
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; };
+
+	const float_t GetRadius() { return radius_; };
 
 private:
 	// ワールド変換データ
@@ -52,4 +57,5 @@ private:
 	// 弾
 	PlayerBullet* bullet_ = nullptr;
 	//Vector3 velociy_;
+	const float_t radius_ = 2.0f;
 };

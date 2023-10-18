@@ -39,3 +39,17 @@ void PlayerBullet::Draw(ViewProjection& viewProjection_)
 	// モデルの描画
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 }
+
+void PlayerBullet::OnCollsion() { isDead_ = true; }
+
+Vector3 PlayerBullet::GetWorldPosition() 
+{
+	Vector3 worldPos;
+
+	// ワールド行列の「平行移動成分」を取得(ワールド座標)
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
+}

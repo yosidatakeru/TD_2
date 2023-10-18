@@ -19,6 +19,14 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
+	void OnCollsion();
+
+	const float_t GetRadius() { return radius_; };
+
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
 private:
 	uint32_t textureHandle_=0u;
 	Model* model_;
@@ -34,4 +42,7 @@ private:
 
 	// デストタima
 	int32_t deathTimer_ = kLifeTime;
+
+	
+	const float_t radius_ = 2.0f;
 };

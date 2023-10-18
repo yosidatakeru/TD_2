@@ -115,6 +115,7 @@ void GameScene::Update() {
 	// 天球
 	ground_->Update();
 
+	CheckAllisions();
 	Matrix4x4 cameraMatrix = {};
 	cameraMatrix.m[0][0] = 1.0f;
 	cameraMatrix.m[0][1] = 0.0f;
@@ -211,4 +212,42 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::CheckAllisions() {
+	// 判定対象AとBの座標
+	Vector3 posA, posB;
+	// 自弾
+	Vector3 posC;
+	Vector3 posD;
+	// 自弾リストの取得
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	// 敵弾リストの取得
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+
+#pragma region 自キャラと敵弾の当たり判定
+
+	// 自キャラの座標
+	posA = player_->GetWorldPosition();
+
+	// 自キャラと敵弾全ての当たり判定
+	for (EnemyBullet* bullet : enemyBullets) {
+		// 敵弾の座標
+		posB = bullet->GetWorldPosition();
+
+		// 座標AとBの距離を求める
+		float distanceAB = (posB.x - posA.x) * (posB.x - posA.x) +
+		                   (posB.y - posA.y) * (posB.y - posA.y) +
+		                   (posB.z - posA.z) * (posB.z - posA.z);
+
+		float RadiusAB = (player_->GetRadius() + bullet->GetRadius()) +
+		                 (player_->GetRadius() + bullet->GetRadius());
+
+		if (distanceAB <= RadiusAB) {
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollsion();
+			// 敵弾の衝突時コールバックを呼び出す
+			bullet->OnCollsion();
+		}
+	}
 }

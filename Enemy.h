@@ -36,6 +36,12 @@ public:
 
 	void Fire();
 
+	void OnCollsion();
+
+	// 弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールドトランスホーム:
